@@ -18,6 +18,8 @@ import com.example.employee_management_spring.model.Employee;
 import com.example.employee_management_spring.model.EmployeeRequest;
 import com.example.employee_management_spring.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -55,7 +57,7 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<Employee> createEmployee(
-            @RequestBody EmployeeRequest request) {
+            @Valid @RequestBody EmployeeRequest request) {
         Employee createdEmployee = employeeService.create(request);
 
         return ResponseEntity
@@ -66,7 +68,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployee(
             @PathVariable int id,
-            @RequestBody EmployeeRequest request) {
+            @Valid @RequestBody EmployeeRequest request) {
         return ResponseEntity.ok(employeeService.update(id, request));
     }
 

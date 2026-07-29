@@ -1,13 +1,8 @@
 package com.example.employee_management_spring.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
+import com.example.employee_management_spring.exception.ResourceNotFoundException;
 import com.example.employee_management_spring.model.Department;
 import com.example.employee_management_spring.model.Employee;
 import com.example.employee_management_spring.model.EmployeeRequest;
@@ -44,9 +39,7 @@ public class EmployeeService {
 
     public Employee findById(int id) {
         return employeeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Employee not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", id));
     }
 
     public List<Employee> searchByDepartment(String departmentName) {
@@ -67,9 +60,7 @@ public class EmployeeService {
 
     public void deleteById(int id) {
         if (!employeeRepository.existsById(id)) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Employee not found with id: " + id);
+            throw new ResourceNotFoundException("Employee", id);
         }
 
         employeeRepository.deleteById(id);
@@ -77,8 +68,6 @@ public class EmployeeService {
 
     private Department findDepartmentById(int departmentId) {
         return departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Department not found with id: " + departmentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Department", departmentId));
     }
 }
