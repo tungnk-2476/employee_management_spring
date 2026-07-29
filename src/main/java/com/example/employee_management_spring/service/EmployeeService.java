@@ -37,7 +37,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee findById(int id) {
+    public Employee findById(Integer id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", id));
     }
@@ -47,7 +47,7 @@ public class EmployeeService {
                 .findByDepartment_NameContainingIgnoreCase(departmentName);
     }
 
-    public Employee update(int id, EmployeeRequest request) {
+    public Employee update(Integer id, EmployeeRequest request) {
         Employee employee = findById(id);
         Department department = findDepartmentById(request.getDepartmentId());
 
@@ -58,7 +58,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         if (!employeeRepository.existsById(id)) {
             throw new ResourceNotFoundException("Employee", id);
         }
@@ -66,7 +66,19 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    private Department findDepartmentById(int departmentId) {
+    public List<Employee> search(String name, String department) {
+        if (name != null && !name.isBlank()) {
+            return searchByName(name);
+        }
+
+        if (department != null && !department.isBlank()) {
+            return searchByDepartment(department);
+        }
+
+        return findAll();
+    }
+
+    private Department findDepartmentById(Integer departmentId) {
         return departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Department", departmentId));
     }

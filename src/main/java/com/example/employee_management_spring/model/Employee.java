@@ -15,7 +15,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String name;
     private String email;
 
@@ -23,7 +23,7 @@ public class Employee {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    public Employee(int id, String name, String email, Department department) {
+    public Employee(Integer id, String name, String email, Department department) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -33,11 +33,11 @@ public class Employee {
     public Employee() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

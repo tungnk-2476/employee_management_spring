@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+</head>
+
+<body>
+    <h1>Employee List</h1>
+
+    <p th:if="${message}" th:text="${message}"></p>
+
+    <p>
+        <a th:href="@{/employees/add}">Add employee</a>
+    </p>
+
+    <form th:action="@{/employees/list}" method="get">
+        <input type="text" name="name" placeholder="Search by name" th:value="${name}">
+
+        <select name="department">
+            <option value="">All departments</option>
+            <option th:each="item : ${departments}" th:value="${item.name}" th:text="${item.name}"
+                th:selected="${department == item.name}"></option>
+        </select>
+
+        <button type="submit">Search</button>
+        <a th:href="@{/employees/list}">Reset</a>
+    </form>
+
+    <br>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.name}"></td>
+                <td th:text="${employee.email}"></td>
+                <td th:text="${employee.department.name}"></td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(employees)}">
+                <td colspan="4">No employees found</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
