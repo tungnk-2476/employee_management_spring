@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: employee-management
+
+  jpa:
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+info:
+  app:
+    name: Employee Management System
+    description: Spring Boot learning project
