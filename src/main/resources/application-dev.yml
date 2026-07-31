@@ -16,3 +16,8 @@ logging:
   level:
     com.example.employee_management_spring: DEBUG
     org.hibernate.SQL: DEBUG
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: 3600000
