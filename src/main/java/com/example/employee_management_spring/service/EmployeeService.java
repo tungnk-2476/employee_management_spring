@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import com.example.employee_management_spring.exception.ResourceNotFoundException;
 import com.example.employee_management_spring.model.Department;
@@ -23,6 +24,7 @@ public class EmployeeService {
         this.departmentRepository = departmentRepository;
     }
 
+    @CacheEvict(cacheNames = "employee-count", allEntries = true)
     public Employee create(EmployeeRequest request) {
         Department department = findDepartmentById(request.getDepartmentId());
         Employee employee = new Employee();
@@ -35,7 +37,7 @@ public class EmployeeService {
                 "Created employee: id={}, departmentId={}",
                 savedEmployee.getId(),
                 department.getId());
-        return savedEmployee;
+        return findById(savedEmployee.getId());
     }
 
     public List<Employee> searchByName(String name) {
@@ -56,6 +58,7 @@ public class EmployeeService {
                 .findByDepartment_NameContainingIgnoreCase(departmentName);
     }
 
+    @CacheEvict(cacheNames = "employee-count", allEntries = true)
     public Employee update(Integer id, EmployeeRequest request) {
         Employee employee = findById(id);
         Department department = findDepartmentById(request.getDepartmentId());
@@ -71,9 +74,10 @@ public class EmployeeService {
                 savedEmployee.getId(),
                 department.getId());
 
-        return savedEmployee;
+        return findById(savedEmployee.getId());
     }
 
+    @CacheEvict(cacheNames = "employee-count", allEntries = true)
     public void deleteById(Integer id) {
         if (!employeeRepository.existsById(id)) {
             throw new ResourceNotFoundException("Employee", id);

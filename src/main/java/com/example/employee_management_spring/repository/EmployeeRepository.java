@@ -1,6 +1,7 @@
 package com.example.employee_management_spring.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Override
     @EntityGraph(attributePaths = "department")
     List<Employee> findAll();
+
+    @Override
+    @EntityGraph(attributePaths = "department")
+    Optional<Employee> findById(Integer id);
 
     @EntityGraph(attributePaths = "department")
     List<Employee> findByNameContainingIgnoreCase(String name);

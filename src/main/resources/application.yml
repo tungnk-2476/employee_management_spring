@@ -5,6 +5,12 @@ spring:
   jpa:
     open-in-view: false
 
+  cache:
+    type: caffeine
+    cache-names: employee-count
+    caffeine:
+      spec: maximumSize=100,expireAfterWrite=1m
+
 management:
   endpoints:
     web:
